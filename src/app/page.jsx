@@ -18,7 +18,8 @@ export default function Home() {
   const {data} = useFetch()
   const [search, setSearch] = useState(false)
   const [ countrySearched, setCountrySearched ] = useState()
-  
+  const [ filterCountry, setFilterCountry] = useState(null)
+
   /*
   useEffect(() =>{
       fetch(`https://restcountries.com/v3.1/all`)
@@ -53,66 +54,114 @@ export default function Home() {
   
   const handleBack = () => {
     setSearch(false)
+    setFilterCountry(false)
   }
-  
+  const handleSelect = (e) => {
+    let region = e.target.value;
+    console.log('active');
+    let result = data.filter((data) => data.region === region)
+    setFilterCountry(result)
+    console.log('result:', result);
+   //console.log('esta es la data:',data);
+    
+  }
   
   return (
    <main className="h-screen p-12">
       
-
-      <form action="submit" onSubmit={handleSubmit} className="mb-6 p-6 flex items-center ">
+    <div className="flex flex-col items-start justify-center  sm:flex-row sm:items-center sm:justify-between">
+        <form action="submit" onSubmit={handleSubmit} className=" sm:p-6 flex justify-start items-center ">
             <img src="/search.svg" width={'30'} height={'30'} alt="" className="absolute ml-6"/>
-            <input id="inputs" className="w-[600px] h-14 " type="text" placeholder="Search for country..."/>
-       </form> 
+            <input id="inputs" className="w-[200px] sm:w-[400px]  h-14 mb-6 " type="text" placeholder="Search for country..."/>
+        </form> 
 
-      
-      {!search ? (
+        <select onChange={handleSelect} name="opciones" className="sm:flex sm:items-center w-8 border-2 border-slate-700 rounded-md p-2 sm:w-28 " >
+          <option value="Americas">Americas</option>
+          <option value="Europe">Europe</option>
+          <option value="Africa">Africa</option>
+          <option value="Asia">Asia</option>
+          <option value="Oceania">Oceania</option>
+        </select>
+    </div>
+
+
+
+
+    { !search && !filterCountry ? (
         <ul className="flex flex-wrap gap-10 h-screen w-full items-center justify-center mt-6" >
-          {data && (
-            data.map((pais, index) => (
-              <Link
-                key={index}
-                href={`/Info/${pais.name.common}`}
-              >
-                <li key={index} className="m-6" >
-                  <Pais pais={pais}/>
-    
-                </li>          
-              </Link>
-            ))
-          )}  
-        </ul>
-        
+        {data && (
+          data.map((pais, index) => (
+            <Link
+              key={index}
+              href={`/Info/${pais.name.common}`}
+            >
+              <li key={index} className="m-6" >
+                <Pais pais={pais}/>
 
-      ):(
+              </li>          
+            </Link>
+          ))
+        )}  
+      </ul>)
+    
+    :(<p></p>)
+ 
+    }
+
+    {search && !filterCountry ? (
+      (
         <div>
-           <div className="flex items-center m-6">
-              <div className="element"></div>
-              <button onClick={handleBack} className="bg-slate-300 text-black text-lg w-20 h-12 flex justify-center items-center  ">Back</button>
-           </div>
-        <ul className="flex flex-wrap gap-10 h-full w-full items-center justify-center mt-6">
-    
-          {countrySearched && (
-            countrySearched.map((pais,index) => (
-              <Link
-                key={index}
-                href={`/Info/${pais.name.common}`}
-                
-              >
-                
-                <li key={index}>
-                  <Pais pais={pais} />
-                </li>
-              </Link>
-            ))
-          )}
-
-        </ul>
-
-           </div>
-      )}
+          <div  onClick={handleBack} className="cursor-pointer flex items-center m-6">
+             <div className="element"></div>
+             <button className="bg-slate-300 text-black text-lg w-20 h-12 flex justify-center items-center  ">Back</button>
+          </div>
+            <ul className="flex flex-wrap gap-10 h-full w-full items-center justify-center mt-6">
       
-      
+            {countrySearched && (
+              countrySearched.map((pais,index) => (
+                <Link
+                  key={index}
+                  href={`/Info/${pais.name.common}`}
+                  
+                >
+                  
+                  <li key={index}>
+                    <Pais pais={pais} />
+                  </li>
+                </Link>
+              ))
+            )}
+  
+          </ul>
+  
+          </div>)
+    ):<p></p>}
+
+    {!search && filterCountry ?  
+      (<div >
+          <div onClick={handleBack} className="cursor-pointer flex items-center m-6">
+            <div className="element"></div>
+            <button  className="bg-slate-300 text-black text-lg w-20 h-12 flex justify-center items-center">Back</button>
+          </div>
+          
+          <ul className="flex flex-wrap gap-10 h-screen w-full items-center justify-center mt-6">
+              {filterCountry && (
+                filterCountry.map((pais, index) => (
+                  <Link
+                    key={index}
+                    href={`/Info/${pais.name.common}`}
+                  >
+                    <li key={index}>
+                      <Pais pais={pais} />
+                    </li>
+                  </Link>
+                ))
+              )}
+            </ul> 
+
+      </div>
+      ):<p></p>
+      }
 
    </main>
   );
