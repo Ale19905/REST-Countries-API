@@ -69,13 +69,14 @@ export default function Home() {
   return (
    <main className="h-screen p-12">
       
-    <div className="flex flex-col items-start justify-center  sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col items-start justify-center gap-4 md:flex-row md:items-center md:justify-between">
         <form action="submit" onSubmit={handleSubmit} className=" sm:p-6 flex justify-start items-center ">
             <img src="/search.svg" width={'30'} height={'30'} alt="" className="absolute ml-6"/>
-            <input id="inputs" className="w-[200px] sm:w-[400px]  h-14 mb-6 " type="text" placeholder="Search for country..."/>
+            <input id="inputs" className="w-[300px] sm:w-[400px]  h-14 mb-6 " type="text" placeholder="Search for a country..."/>
         </form> 
 
-        <select onChange={handleSelect} name="opciones" className="sm:flex sm:items-center w-8 border-2 border-slate-700 rounded-md p-2 sm:w-28 " >
+        <select onChange={handleSelect} name="opciones" className="md:flex md:items-center ml-2 w-20 border-2 border-slate-700 rounded-md p-2 md:w-40 " >
+          <option disabled value="" selected hidden>Filter by region</option>
           <option value="Americas">Americas</option>
           <option value="Europe">Europe</option>
           <option value="Africa">Africa</option>
