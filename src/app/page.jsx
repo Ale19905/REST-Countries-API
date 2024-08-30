@@ -123,7 +123,6 @@ export default function Home() {
                 <Link
                   key={index}
                   href={`/Info/${pais.name.common}`}
-                  
                 >
                   
                   <li key={index}>
