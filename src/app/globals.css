@@ -28,11 +28,18 @@ body{
   
 }
  
+@media screen and (max-width: 425px){
+    #inputs{
+      padding-inline: 60px;
+    }
+}
+
 #inputs:focus {
   outline: none;
   box-shadow: 0px 0px 5px #61C5FA;
   border:1px solid #5AB0DB;
 }
+
 .element {
   width: 0;
   height: 0;
